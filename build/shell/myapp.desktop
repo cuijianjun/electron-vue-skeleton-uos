@@ -1,0 +1,15 @@
+[Desktop Entry]
+Encoding=UTF-8
+Comment=我的应用
+Comment[zh_CN]=我的应用
+Exec=/opt/myapp/myapp %U
+GenericName=MyApp
+GenericName[zh_CN]=我的应用
+MimeType=x-scheme-handler/myapp;
+Name=myapp
+Name[zh_CN]=我的应用
+StartupNotify=false
+Terminal=false
+Type=Application
+Categories=Utility;
+Icon=/opt/myapp/build/shell/512x512.png
