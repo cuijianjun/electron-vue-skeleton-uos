@@ -11,7 +11,7 @@
     "build": "npm run build:linux:arm64",
     "build:prod": "npm run build:linux:arm64",
     "build:test": "electron-vite build --mode test",
-    "build:dir": "electron-vite build && electron-builder --dir --publish never",
+    "build:dir": "node scripts/build.cjs --phase dir",
     "build:clean": "node scripts/clean.cjs",
     "pack:resources": "node scripts/pack-resources.cjs",
     "update:serve": "node server/index.js",
@@ -23,10 +23,13 @@
     "build:linux:arm64": "node scripts/build.cjs --platform linux --arch arm64",
     "build:linux:x64": "node scripts/build.cjs --platform linux --arch x64",
     "test:packaged": "node --test test/e2e/packaged.cjs",
-    "start": "electron-vite preview"
+    "start": "electron-vite preview",
+    "pack:dir": "node scripts/build.cjs --phase dir --skip-build",
+    "pack:release": "node scripts/build.cjs --skip-build",
+    "build:compact": "node scripts/build.cjs --compact"
   },
   "build": {
-    "asar": false,
+    "asar": true,
     "compression": "store",
     "productName": "myapp",
     "appId": "com.example.myapp",
@@ -51,7 +54,9 @@
     },
     "files": [
       "dist/electron/**/*",
-      "package.json"
+      "package.json",
+      "!**/*.map",
+      "!**/*.d.ts"
     ],
     "extraResources": [
       {
@@ -101,13 +106,19 @@
       "compression": "xz",
       "fpm": [
         "--deb-no-default-config-files",
-        "--deb-compression=xz"
+        "--deb-compression=xz",
+        "--deb-compression-level=2"
       ],
       "afterInstall": "./build/shell/postinst.sh",
       "afterRemove": "./build/shell/prerm.sh",
       "priority": "optional",
       "synopsis": "我的应用"
-    }
+    },
+    "electronLanguages": [
+      "en-US",
+      "zh-CN",
+      "zh-TW"
+    ]
   },
   "dependencies": {
     "adm-zip": "^0.5.10",
